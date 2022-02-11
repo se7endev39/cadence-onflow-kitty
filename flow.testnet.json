@@ -1,0 +1,15 @@
+{
+  "accounts": {
+    "testnet-account": {
+      "address": "0x54717ffc0823847c",
+      "keys": "30a5821c0280521f3133ebf64c9414143f39eea7f2c6d5f5e3745a545d986d4e"
+    }
+  },
+  "deployments": {
+    "testnet": {
+      "testnet-account": [
+        "KittyItems"
+      ]
+    }
+  }
+}
