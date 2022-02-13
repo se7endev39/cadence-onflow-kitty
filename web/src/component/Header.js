@@ -77,11 +77,14 @@ const Header = () => {
       return "Collection";
     }
 
-    if (getMenuItemActive("collection-me")) {
-      return "My Collection";
+    if (getMenuItemActive("/collection/CollectionMePage")) {
+      return "My Items";
+    }
+    if (getMenuItemActive("/collection/CollectionListPage")) {
+      return "Listed Items";
     }
     if (getMenuItemActive("admin-login")) {
-      return "Admin";
+      return "Admin Login";
     }
     if (getMenuItemActive("logout")) {
       return "LogOut";
@@ -104,7 +107,12 @@ const Header = () => {
           </li>
           <li className={`menu-item ${getMenuItemActive("/collection/CollectionMePage")} hover-effect2`}>
             <a className="menu-a" href="/collection/CollectionMePage">
-              <span className="menu-text">My Collection</span>
+              <span className="menu-text">My Items</span>
+            </a>
+          </li>
+          <li className={`menu-item ${getMenuItemActive("/collection/CollectionListPage")} hover-effect2`}>
+            <a className="menu-a" href="/collection/CollectionListPage">
+              <span className="menu-text">Listed Items</span>
             </a>
           </li>
           {!!currentUser && (
@@ -153,7 +161,8 @@ const Header = () => {
           {mobileMenu && (
             <div className="mobile-menu" onClick={(e) => setMobileMenu(false)}>
               <a className={`${getMenuItemActive("/collection/CollectionPage/")}`} exact href="/">Collection</a>
-              <a className={`${getMenuItemActive("/collection/CollectionMePage")}`} href="/collection/CollectionMePage">My Collection</a>
+              <a className={`${getMenuItemActive("/collection/CollectionMePage")}`} href="/collection/CollectionMePage">My Items</a>
+              <a className={`${getMenuItemActive("/collection/CollectionListPage")}`} href="/collection/CollectionListPage">Listed Items</a>
               <a className={`${getMenuItemActive("admin")}`} href="/admin-login">Admin</a>
               <a className={`${getMenuItemActive("logout")}`} href="/" onClick={() => logOut()}>Logout</a>
             </div>

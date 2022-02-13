@@ -10,12 +10,15 @@ import { query } from '@onflow/fcl'
 // import { MINT_DAPPY } from "../../flow/mint-dappy.tx";
 // import { GET_LISTINGS } from '../../flow/get_listings.script'
 // import { useAuth } from '../../providers/AuthProvider'
-
-
+import useApiListings from "../src/hooks/useApiListings"
+import {storeItemsSelector,publicItemsSelector} from "../src/global/selectors"
 export default function Collection () {
   
-  // const { user } = useAuth()
   const [dibbs, setDibbs] = useState([]);
+
+  const {items} = useApiListings()
+  const storeItems = storeItemsSelector(items)
+  const publicItems = publicItemsSelector(items)
 
   const onBuyCollect = (item) => {
     history.push('/collections/' + item.templateID);
@@ -45,12 +48,30 @@ export default function Collection () {
   return (
     <>
       <MenuWrapper className="animation-fadeInRight">
-        <SectionTitle title="Collection" long />
+        <SectionTitle title="Last Items" long />
       </MenuWrapper>
 
       <CollectionWrapper>
         {
-          dibbs?.map((item) => 
+          storeItems?.map((item) => 
+            <CardCollectionDetails
+              name = {item.name}
+              card={item}
+              onBuyCollect={onBuyCollect}
+              price_d = {item.price}
+              price_f
+            />
+          )
+        }
+      </CollectionWrapper>
+
+      <MenuWrapper className="animation-fadeInRight">
+        <SectionTitle title="My Items" long />
+      </MenuWrapper>
+
+      <CollectionWrapper>
+        {
+          publicItems?.map((item) => 
             <CardCollectionDetails
               name = {item.name}
               card={item}

@@ -85,10 +85,11 @@ export const args = [
   ]
 
   export function parameterize(str) {
-    return str.trim().toLowerCase().replace(" ", "-")
+    return str
+    // return str.toLowerCase().replace(" ", "-")
   }
   export function getCardImage(cardId) {
-    const kindName = ITEM_KIND_MAP[cardId % ITEM_KIND_MAP.length].name
+    const kindName = ITEM_KIND_MAP[cardId % ITEM_KIND_MAP.length]?.name
     return `/static/images/cards/${parameterize(kindName)}.jpg`
   }
   export function getCardName(cardId) {

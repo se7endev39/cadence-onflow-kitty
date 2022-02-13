@@ -42,39 +42,6 @@ export default function CollectionDetails () {
 
   const onClickMint = () => mint()
 
-  // const onMintCollect = async () => {
-  //   // mint()
-  //   let newKind = getRandId();
-  //   try {
-  //     console.log(args[newKind].name)
-  //     // let res = await mutate({
-  //     //   cadence: MINT_CARD_ITEM,
-  //     //   limit: 55,
-  //     //   args: (arg, t) => [arg(user?.addr, t.Address), 
-  //     //     arg(args[newKind].name, t.String), 
-  //     //     arg(args[newKind].grade, t.String),
-  //     //     arg(args[newKind].serial, t.UInt64), 
-  //     //     arg(args[newKind].image, t.String)]
-  //     // })
-  //     let res = await mutate({
-  //       cadence: MINT_KITTY_ITEM,
-  //       limit: 55,
-  //       args: (arg, t) => [arg(user?.addr, t.Address), 
-  //         arg(1, t.UInt8), 
-  //         arg(1, t.UInt8)]
-        
-  //     })
-  //     addTx(res)
-  //     await tx(res).onceSealed()
-  //     history.push('/collections');
-  //   } catch (error) {
-  //     console.log(error)
-  //     history.push('/collections');
-  //   }
-
-  // };
-
-  
 
 
   return (

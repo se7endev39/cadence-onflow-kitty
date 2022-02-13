@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial } from "../../utils/dibbs.mint.data"
+import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial } from "../../../src/util/dibbs.mint.data"
 const CardCollectionDetails = ({
   
   card,
