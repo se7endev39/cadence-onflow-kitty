@@ -1,38 +1,65 @@
-import React, {  useState } from "react";
-import { useLocation } from "react-router";
+import React, { useState } from "react";
+// import { useLocation } from "react-router";
 import styled from "styled-components";
-
+import { useRouter } from "next/router"
+import HeaderDropdown from "../components/HeaderDropdown"
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
-
+import HeaderMessage from "../components/HeaderMessage"
+import HeaderFLOWBalance from "../components/HeaderFLOWBalance"
+import useAppContext from "../hooks/useAppContext"
+import useLogin from "../hooks/useLogin"
+import { paths } from "../global/constants"
+import useFLOWBalance from "../hooks/useFLOWBalance"
+import { formattedCurrency } from "../util/currency"
+import * as fcl from "@onflow/fcl"
 // import { a } from "react-router-dom";
 
 // import { useAuth } from '../providers/AuthProvider'
 // import { useUser } from '../providers/UserProvider'
 
 const Header = () => {
+
+  const { data: flowBalance, isLoading } = useFLOWBalance(currentUser?.addr)
+  const {currentUser, isLoggedInAsAdmin} = useAppContext()
+
+  const router = useRouter()
+  const logIn = useLogin()
+  const isAdminPath = router.pathname === paths.adminMint
+
+
+
   const [mobileMenu, setMobileMenu] = useState(false);
   const [balance, setBalance] = useState();
-  // const { logOut } = useAuth()
-  // const { balance } = useUser()
 
-  // const location = useLocation();
-  // console.log('balancesss',balance);
+  const location = router;
+  
+  const switchToAdminView = () => {
+    if (isLoggedInAsAdmin) {
+      router.push(paths.adminmintpage)
+    } else {
+      router.push(paths.adminloginpage)
+    }
+  }
+
+  
+  const signOut = () => {
+    fcl.unauthenticate()
+  }
   const getCurrentUrl = (location) => {
     return location.pathname.split(/[?#]/)[0];
   };
 
   const checkIsActive = (location, url) => {
     const current = getCurrentUrl(location);
-    console.log(current)
     if (!current || !url) {
       return false;
     }
 
-    if(url === "collections" && current === "/"){
+    if (url === "/collection/CollectionPage/" && current === "/") {
       return true;
     }
-    
+
     if (current === url || (current === "/" && url === "home")) {
       return true;
     }
@@ -46,7 +73,7 @@ const Header = () => {
 
   const getMenuName = () => {
 
-    if (getMenuItemActive("collections")) {
+    if (getMenuItemActive("/collection/CollectionPage/")) {
       return "Collection";
     }
 
@@ -59,75 +86,81 @@ const Header = () => {
     if (getMenuItemActive("logout")) {
       return "LogOut";
     }
-    
+
 
     return "";
   };
 
 
   return (
-    <HeaderWrapper className="header-menu d-flex justify-content-center animation-stretchRight">
-      <ul className="desktop-menu-nav list-unstyled">
-        <li className={`menu-item ${getMenuItemActive("collection/CollectionPage/")} hover-effect2`}>
-          <a className="menu-a" exact href="/collection/CollectionPage">
-            <span className="menu-text">Collection</span>
-          </a>
-        </li>
-        <li className={`menu-item ${getMenuItemActive("/collection/CollectionMePage")} hover-effect2`}>
-          <a className="menu-a" href="/collection/CollectionMePage">
-            <span className="menu-text">My Collection</span>
-          </a>
-        </li>
-        <li className={`menu-item ${getMenuItemActive("admin-login")} hover-effect2`}>
-          <a className="menu-a" href="/admin-login">
-            <span className="menu-text">Admin</span>
-          </a>
-        </li>
-        <li
-          className={`menu-item ${getMenuItemActive(
-            "unlock-wallet"
-          )} hover-effect2`}
-        >
-          <a className="menu-a" href={balance ? "#" : "/unlock-wallet"}>
-            <span className="menu-text">
-              {balance ? (
+    <>
+      <HeaderMessage />
+      <HeaderWrapper className="header-menu d-flex justify-content-center animation-stretchRight">
+        <ul className="desktop-menu-nav list-unstyled">
+          <li className={`menu-item ${getMenuItemActive("/collection/CollectionPage/")} hover-effect2`}>
+            <a className="menu-a" exact href="/">
+              <span className="menu-text">Collection</span>
+            </a>
+          </li>
+          <li className={`menu-item ${getMenuItemActive("/collection/CollectionMePage")} hover-effect2`}>
+            <a className="menu-a" href="/collection/CollectionMePage">
+              <span className="menu-text">My Collection</span>
+            </a>
+          </li>
+          {!!currentUser && (
+            <li
+              className={`menu-item ${getMenuItemActive(
+                "unlock-wallet"
+              )} hover-effect2`}
+            >
+              <a className="menu-a" href={"/"}>
                 <span className="menu-text">
-                  <strong>{parseInt(balance)}</strong>
-                  FLOW
+                  {formattedCurrency(flowBalance)} FLOW
                 </span>
+              </a>
+            </li>
+          )}
+          <li className={`menu-item ${getMenuItemActive("admin-login")} hover-effect2`}>
+            <a className="menu-a" href={isLoggedInAsAdmin ? "/admin/adminmint" : "/admin/adminlogin" } onClick={switchToAdminView}>
+              <span className="menu-text">Admin</span>
+            </a>
+          </li>
+          {currentUser ? (
+            <li className={`menu-item ${getMenuItemActive("logout")} hover-effect2`}>
+              <a className="menu-a" onClick={signOut} href="/">
+                <span className="menu-text">LogOut</span>
+              </a>
+            </li>
+          ) : (
+            <li className={`menu-item ${getMenuItemActive("logout")} hover-effect2`}>
+              <a className="menu-a" onClick={logIn} href="/">
+                <span className="menu-text">LogIn</span>
+              </a>
+            </li>
+          )}
+        </ul>
+        <ul className="mobile-menu-nav list-unstyled">
+          <li className="menu-item">
+            <div className="menu-a">
+              {!mobileMenu ? (
+                <MenuIcon onClick={(e) => setMobileMenu(true)} />
               ) : (
-                "Unlock Wallet"
+                <CloseIcon onClick={(e) => setMobileMenu(false)} />
               )}
-            </span>
-          </a>
-        </li>
-        <li className={`menu-item ${getMenuItemActive("logout")} hover-effect2`}>
-          <a className="menu-a" onClick={() => logOut()} href="/">
-            <span className="menu-text">Logout</span>
-          </a>
-        </li>
-      </ul>
-      <ul className="mobile-menu-nav list-unstyled">
-        <li className="menu-item">
-          <div className="menu-a">
-            {!mobileMenu ? (
-              <MenuIcon onClick={(e) => setMobileMenu(true)} />
-            ) : (
-              <CloseIcon onClick={(e) => setMobileMenu(false)} />
-            )}
-            <span className="menu-text">{getMenuName()}</span>
-          </div>
-        </li>
-        {mobileMenu && (
-          <div className="mobile-menu" onClick={(e) => setMobileMenu(false)}>
-            <a className={`${getMenuItemActive("collection/CollectionPage/")}`} exact href="/collection/CollectionPage">Collection</a>
-            <a className={`${getMenuItemActive("/collection/CollectionMePage")}`} href="/collection/CollectionMePage">My Collection</a>
-            <a className={`${getMenuItemActive("admin")}`} href="/admin-login">Admin</a>
-            <a className={`${getMenuItemActive("logout")}`} href="/" onClick={() => logOut()}>Logout</a>
-          </div> 
-        )}
-      </ul>
-    </HeaderWrapper>
+              <span className="menu-text">{getMenuName()}</span>
+            </div>
+          </li>
+          {mobileMenu && (
+            <div className="mobile-menu" onClick={(e) => setMobileMenu(false)}>
+              <a className={`${getMenuItemActive("/collection/CollectionPage/")}`} exact href="/">Collection</a>
+              <a className={`${getMenuItemActive("/collection/CollectionMePage")}`} href="/collection/CollectionMePage">My Collection</a>
+              <a className={`${getMenuItemActive("admin")}`} href="/admin-login">Admin</a>
+              <a className={`${getMenuItemActive("logout")}`} href="/" onClick={() => logOut()}>Logout</a>
+            </div>
+          )}
+        </ul>
+      </HeaderWrapper>
+    </>
   );
 };
 

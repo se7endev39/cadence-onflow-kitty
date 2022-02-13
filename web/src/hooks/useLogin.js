@@ -9,7 +9,7 @@ export default function useLogin() {
     const user = await fcl.logIn()
     if (user.addr) {
       // router.push("/collections")
-      router.push(paths.profile(user.addr))
+      router.push(paths.root)
     }
   }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ITEM_KIND_MAP } from "../../utils/dibbs.mint.data"
+import { ITEM_KIND_MAP } from "../../../src/util/dibbs.mint.data"
 
-const AdminMint = ({
+export default function AdminMint ({
   card,
   onMintCollect,
   name,
@@ -12,7 +12,8 @@ const AdminMint = ({
   price_f,
   amount,
   isSell=false,
-}) => {
+  isLoadings
+}) {
   const [src, setSrc] = useState("/static/images/cards/fernando-tatisjr.jpg");
   const [imageName, setImageName] = useState("");
   const [grade, setGrade] = useState("");
@@ -256,4 +257,3 @@ export const ButtonWrapper = styled.div`
   }
 `;
 
-export default AdminMint;

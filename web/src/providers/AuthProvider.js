@@ -5,7 +5,7 @@ import useCurrentUser from 'src/hooks/use-current-user.hook'
 import styled from "styled-components";
 import ReactFullpage from "@fullpage/react-fullpage";
 
-const AuthContext = createContext()
+// const AuthContext = createContext()
 
 export default function AuthProvider({ children }) {
   const logIn = useLogin()
@@ -172,13 +172,13 @@ export default function AuthProvider({ children }) {
                   </div>
                   <button
                     className="hover-effect1 animation-bigEntrance"
-                    onClick={tools?.logIn()}
+                    onClick={logIn}
                   >
-                    Sign In11
+                    Sign In
                   </button>
                   <button
                     className="hover-effect1 animation-bigEntrance"
-                    onClick={tools?.logIn()}
+                    onClick={logIn}
                   >
                     Sign Up
                   </button>
@@ -194,16 +194,12 @@ export default function AuthProvider({ children }) {
   )
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      loggedIn,
-      ...tools
-    }}>
+    <>
       {children}
-    </AuthContext.Provider>
+    </>
   )
 }
 
-export const useAuth = () => {
-  return useContext(AuthContext)
-}
+// export const useAuth = () => {
+//   return useContext(AuthContext)
+// }
