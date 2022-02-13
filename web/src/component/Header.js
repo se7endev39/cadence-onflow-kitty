@@ -5,23 +5,34 @@ import styled from "styled-components";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 
-import { NavLink } from "react-router-dom";
+// import { a } from "react-router-dom";
+
+// import { useAuth } from '../providers/AuthProvider'
+// import { useUser } from '../providers/UserProvider'
 
 const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [balance, setBalance] = useState();
+  // const { logOut } = useAuth()
+  // const { balance } = useUser()
 
-  const location = useLocation();
+  // const location = useLocation();
+  // console.log('balancesss',balance);
   const getCurrentUrl = (location) => {
     return location.pathname.split(/[?#]/)[0];
   };
 
   const checkIsActive = (location, url) => {
     const current = getCurrentUrl(location);
-
+    console.log(current)
     if (!current || !url) {
       return false;
     }
 
+    if(url === "collections" && current === "/"){
+      return true;
+    }
+    
     if (current === url || (current === "/" && url === "home")) {
       return true;
     }
@@ -42,6 +53,13 @@ const Header = () => {
     if (getMenuItemActive("collection-me")) {
       return "My Collection";
     }
+    if (getMenuItemActive("admin-login")) {
+      return "Admin";
+    }
+    if (getMenuItemActive("logout")) {
+      return "LogOut";
+    }
+    
 
     return "";
   };
@@ -51,19 +69,47 @@ const Header = () => {
     <HeaderWrapper className="header-menu d-flex justify-content-center animation-stretchRight">
       <ul className="desktop-menu-nav list-unstyled">
         <li className={`menu-item ${getMenuItemActive("collections")} hover-effect2`}>
-          <NavLink className="menu-link" exact to="/collections">
+          <a className="menu-a" exact href="/collection/CollectionPage">
             <span className="menu-text">Collection</span>
-          </NavLink>
+          </a>
         </li>
         <li className={`menu-item ${getMenuItemActive("collection-me")} hover-effect2`}>
-          <NavLink className="menu-link" to="/collection-me">
+          <a className="menu-a" href="/collection-me">
             <span className="menu-text">My Collection</span>
-          </NavLink>
+          </a>
+        </li>
+        <li className={`menu-item ${getMenuItemActive("admin-login")} hover-effect2`}>
+          <a className="menu-a" href="/admin-login">
+            <span className="menu-text">Admin</span>
+          </a>
+        </li>
+        <li
+          className={`menu-item ${getMenuItemActive(
+            "unlock-wallet"
+          )} hover-effect2`}
+        >
+          <a className="menu-a" href={balance ? "#" : "/unlock-wallet"}>
+            <span className="menu-text">
+              {balance ? (
+                <span className="menu-text">
+                  <strong>{parseInt(balance)}</strong>
+                  FLOW
+                </span>
+              ) : (
+                "Unlock Wallet"
+              )}
+            </span>
+          </a>
+        </li>
+        <li className={`menu-item ${getMenuItemActive("logout")} hover-effect2`}>
+          <a className="menu-a" onClick={() => logOut()} href="/">
+            <span className="menu-text">Logout</span>
+          </a>
         </li>
       </ul>
       <ul className="mobile-menu-nav list-unstyled">
         <li className="menu-item">
-          <div className="menu-link">
+          <div className="menu-a">
             {!mobileMenu ? (
               <MenuIcon onClick={(e) => setMobileMenu(true)} />
             ) : (
@@ -74,9 +120,11 @@ const Header = () => {
         </li>
         {mobileMenu && (
           <div className="mobile-menu" onClick={(e) => setMobileMenu(false)}>
-            <NavLink className={`${getMenuItemActive("collections")}`} exact to="/collections">Collection</NavLink>
-            <NavLink className={`${getMenuItemActive("collection-me")}`} to="/collection-me">My Collection</NavLink>
-          </div>
+            <a className={`${getMenuItemActive("collections")}`} exact href="/collection/CollectionPage">Collection</a>
+            <a className={`${getMenuItemActive("collection-me")}`} href="/collection-me">My Collection</a>
+            <a className={`${getMenuItemActive("admin")}`} href="/admin-login">Admin</a>
+            <a className={`${getMenuItemActive("logout")}`} href="/" onClick={() => logOut()}>Logout</a>
+          </div> 
         )}
       </ul>
     </HeaderWrapper>
@@ -90,7 +138,7 @@ const HeaderWrapper = styled.div`
     text-align: center;
     background-size: 100% 100%;
 
-    .menu-link {
+    .menu-a {
       height: 100%;
       text-decoration: none;
       display: flex;
@@ -111,7 +159,7 @@ const HeaderWrapper = styled.div`
     }
 
     &.active {
-      .menu-link {
+      .menu-a {
         .menu-text {
           color: #fec100;
           font-weight: 900;

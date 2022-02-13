@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-// import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial } from "../../utils/dibbs.mint.data"
-const CardCollectionDetails = ({
-  
+import { ITEM_KIND_MAP } from "../../utils/dibbs.mint.data"
+
+const AdminMint = ({
   card,
-  onBuyCollect,
+  onMintCollect,
   name,
   details,
   supply,
@@ -12,13 +12,42 @@ const CardCollectionDetails = ({
   price_f,
   amount,
   isSell=false,
-  isLoading=false,
 }) => {
+  const [src, setSrc] = useState("/static/images/cards/fernando-tatisjr.jpg");
+  const [imageName, setImageName] = useState("");
+  const [grade, setGrade] = useState("");
+  const [serial, setSerial] = useState("");
+  const [prev] = useState("");
+  const [isloading, setIsLoading] = useState(false);
   
+  function getImageSrc(kind) {
+    const kindName = ITEM_KIND_MAP[kind].name
+    setImageName(kindName)
+    setGrade(ITEM_KIND_MAP[kind].grade)
+    setSerial(ITEM_KIND_MAP[kind].serial)
+    return `/static/images/cards/${parameterize(kindName)}.jpg`
+  }
+
+  function parameterize(str) {
+    return str.trim().toLowerCase().replace(" ", "-")
+  }
+useEffect(() => {
+  if(isloading)
+  {
+      setInterval(()=> {
+      const getRandId = () => Math.floor(Math.random() * 10);
+      let new_kindid = getRandId();
+      setSrc(getImageSrc(new_kindid, true)); 
+    },1000);
+  }
+},[prev,isloading])
+  
+
+
   return (
     <Container>
       <CardImage>
-        <img src={getCardImage(isSell?card.id:card.templateID)} alt={card.name} className={`card-image`} />
+        <img src={src} alt={card.name} className={`card-image`} />
         <img
           src={`/static/images/bg/components/card/card-border.png`}
           alt="card-border"
@@ -31,35 +60,25 @@ const CardCollectionDetails = ({
             { name && 
               <div className="w-100 d-flex justify-between">
                 <label>Name: </label>
-                <span>{getCardName(isSell?card.id:card.templateID)}</span>
+                <span>{imageName}</span>
               </div>
             }
-            { name && 
+            { details && 
               <div className="w-100 d-flex justify-between">
                 <label>Grade: </label>
-                <span>{getCardGrade(isSell?card.id:card.templateID)}</span>
+                <span>{grade}</span>
               </div>
             }
-            {/* <div className="w-100 d-flex flex-column">
-              <label className="text-left">Details: </label>
-              <span className="text-left text-wrapper">{card.details}</span>
-            </div> */}
-            { name && 
+            { details && 
               <div className="w-100 d-flex justify-between">
                 <label>Serial: </label>
-                <span>{getCardSerial(isSell?card.id:card.templateID)}</span>
+                <span>{serial}</span>
               </div>
             }
             { price_d && 
               <div className="w-100 d-flex justify-between">
                 <label>price $ :</label>
                 <span>{card.price}</span>
-              </div>
-            }
-            { price_f && 
-              <div className="w-100 d-flex justify-between">
-                <label>price F :</label>
-                <span>{card.price_f}</span>
               </div>
             }
             { amount && 
@@ -72,7 +91,7 @@ const CardCollectionDetails = ({
 
             <div className="grid-button-wrapper">
                   
-              {isLoading ? (
+              {isloading ? (
                 <button
                   className={`${
                     "btn-buying"
@@ -84,15 +103,15 @@ const CardCollectionDetails = ({
                       height="20"
                       alt=""
                     />
-                    { !isSell ? "BUYING..." : "Selling..." }
+                    { !isSell ? "MINTING..." : "Selling..." }
                   </div>
                 </button>
               ) : (
                 <button
                   className="approve hover-effect2"
-                  onClick={(e) => onBuyCollect(card)}
+                  onClick={(e) => { onMintCollect(); setIsLoading(true); }}
                 >
-                  { !isSell ? "BUY" : "Sell" }
+                  { !isSell ? "MINT" : "MINT" }
                 </button>
               )}
                 
@@ -237,4 +256,4 @@ export const ButtonWrapper = styled.div`
   }
 `;
 
-export default CardCollectionDetails;
+export default AdminMint;

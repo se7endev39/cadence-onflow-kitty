@@ -3,6 +3,8 @@ import { withRouter } from "react-router";
 import styled from "styled-components";
 import ReactFullpage from "@fullpage/react-fullpage";
 
+import useLogin from "src/hooks/useLogin"
+
 const LoginPageWrapper = styled.div`
 .fullpage-wrapper {
   > div {
@@ -141,6 +143,7 @@ const LoginPageWrapper = styled.div`
 `;
 
 export default function LoginPage() {
+  const logIn = useLogin()
   return (
     <LoginPageWrapper>
       <ReactFullpage
@@ -165,13 +168,13 @@ export default function LoginPage() {
                   </div>
                   <button
                     className="hover-effect1 animation-bigEntrance"
-                    onClick={(e) => tools?.logIn()}
+                    onClick={logIn}
                   >
-                    Sign In
+                    Sign In1
                   </button>
                   <button
                     className="hover-effect1 animation-bigEntrance"
-                    onClick={(e) => tools?.logIn()}
+                    onClick={logIn}
                   >
                     Sign Up
                   </button>

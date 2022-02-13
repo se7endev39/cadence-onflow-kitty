@@ -30,7 +30,7 @@ export const MenuWrapper = styled.div`
   }
 `;
 
-const SectionTitle = ({ title, long, icon }) => {
+export default function SectionTitle ({ title, long, icon }){
   return (
     <SectionTitleWrapper>
       <div className={`title ${long && "long"}`}>
@@ -124,4 +124,3 @@ const SectionTitleWrapper = styled.div`
   }
 `;
 
-export default SectionTitle;

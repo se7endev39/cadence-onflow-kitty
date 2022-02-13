@@ -9,7 +9,9 @@ import "../styles/index.scss";
 import "../styles/vendor/index.scss"
 import { SWRConfig } from "swr"
 import defaultTheme from '../src/theme'
-
+import AuthProvider from "../src/providers/AuthProvider";
+import Footer from "../src/component/Footer";
+import Layout from "../src/layout/Layout";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
 import { ThemeProvider } from "styled-components";
@@ -53,8 +55,14 @@ export default function MyApp({ Component }) {
           <StylesProvider injectFirst>
             <MuiThemeProvider theme={theme}>
               <ThemeProvider theme={theme}>
-                <Component />
-                <AdminLogInDialog />
+                <AuthProvider>
+                  <Layout>
+                    <Component />
+                    <Footer />
+                    <AdminLogInDialog />
+                  </Layout>
+
+                </AuthProvider>
               </ThemeProvider>
             </MuiThemeProvider>
           </StylesProvider>
