@@ -1,19 +1,21 @@
 import React from "react";
+import { useEffect, useState } from 'react'
 import { withRouter } from "react-router";
 
-import CardCollectionDetails from "../../component/Card/CardCollectionDetails";
-import SectionTitle, { MenuWrapper, CollectionWrapper } from "../../component/SectionTitle";
+import CardCollectionDetails from "../../src/component/Card/CardCollectionDetails";
+import SectionTitle, { MenuWrapper, CollectionWrapper } from "../../src/component/SectionTitle";
 
-import { myCollection } from "../../tempData/data";
-import { useUser } from '../../providers/UserProvider'
+import { myCollection } from "../../src/tempData/data";
+// import { useUser } from '../../src/providers/UserProvider'
 
-const CollectionMe = ({ history }) => {
-  const { userDappies, sellDibbs } = useUser()
-
+export default function CollectionMe () {
+  // const { userDappies, sellDibbs } = useUser()
+  const [userDappies, setuserDappies] = useState([]);
   const onBuyCollect = async (card) => {
+    
     console.log(card.id, card.price);
     try {
-      await sellDibbs(card.id, card.price);
+      // await sellDibbs(card.id, card.price);
       history.push('/collections');
     } catch (error) {
       console.log(error)
@@ -48,4 +50,3 @@ const CollectionMe = ({ history }) => {
   );
 };
 
-export default withRouter(CollectionMe);

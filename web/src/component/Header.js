@@ -68,13 +68,13 @@ const Header = () => {
   return (
     <HeaderWrapper className="header-menu d-flex justify-content-center animation-stretchRight">
       <ul className="desktop-menu-nav list-unstyled">
-        <li className={`menu-item ${getMenuItemActive("collections")} hover-effect2`}>
+        <li className={`menu-item ${getMenuItemActive("collection/CollectionPage/")} hover-effect2`}>
           <a className="menu-a" exact href="/collection/CollectionPage">
             <span className="menu-text">Collection</span>
           </a>
         </li>
-        <li className={`menu-item ${getMenuItemActive("collection-me")} hover-effect2`}>
-          <a className="menu-a" href="/collection-me">
+        <li className={`menu-item ${getMenuItemActive("/collection/CollectionMePage")} hover-effect2`}>
+          <a className="menu-a" href="/collection/CollectionMePage">
             <span className="menu-text">My Collection</span>
           </a>
         </li>
@@ -120,8 +120,8 @@ const Header = () => {
         </li>
         {mobileMenu && (
           <div className="mobile-menu" onClick={(e) => setMobileMenu(false)}>
-            <a className={`${getMenuItemActive("collections")}`} exact href="/collection/CollectionPage">Collection</a>
-            <a className={`${getMenuItemActive("collection-me")}`} href="/collection-me">My Collection</a>
+            <a className={`${getMenuItemActive("collection/CollectionPage/")}`} exact href="/collection/CollectionPage">Collection</a>
+            <a className={`${getMenuItemActive("/collection/CollectionMePage")}`} href="/collection/CollectionMePage">My Collection</a>
             <a className={`${getMenuItemActive("admin")}`} href="/admin-login">Admin</a>
             <a className={`${getMenuItemActive("logout")}`} href="/" onClick={() => logOut()}>Logout</a>
           </div> 
