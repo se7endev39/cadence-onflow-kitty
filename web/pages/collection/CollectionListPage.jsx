@@ -9,6 +9,7 @@ import { myCollection } from "../../src/tempData/data";
 
 import useAppContext from "../../src/hooks/useAppContext"
 import useListings from "../../src/hooks/useListings"
+import Listing from "../../src/component/Card/Listing"
 
 export default function CollectionMe () {
 
@@ -18,18 +19,6 @@ export default function CollectionMe () {
   const {data: itemIds, isLoading} = useListings(address)
 
   console.log('itemIds',itemIds)
-  // const [userDappies, setuserDappies] = useState([]);
-  // const onBuyCollect = async (card) => {
-    
-  //   console.log(card.id, card.price);
-  //   try {
-  //     // await sellDibbs(card.id, card.price);
-  //     history.push('/collections');
-  //   } catch (error) {
-  //     console.log(error)
-  //     history.push('/collections');
-  //   }
-  // }
 
   return (
     <>
@@ -38,20 +27,9 @@ export default function CollectionMe () {
       </MenuWrapper>
 
       <CollectionWrapper>
-        {
-          itemIds?.map((item) =>
-            <CardCollectionDetails
-              key={item.id}
-              templateKeyId={item.id}
-              name={item.name}
-              card={item}
-              price_d
-              price_f
-              amount={item.amount}
-              isSell
-            />
-          )
-        }
+        {itemIds?.map(id => (
+          <Listing key={id} address={address} id={id} showOwnerInfo={true} />
+        ))}
       </CollectionWrapper>
     </>
   );

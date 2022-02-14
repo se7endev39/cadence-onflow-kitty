@@ -1,32 +1,40 @@
-import {useRouter} from "next/dist/client/router"
-import ListItemImage from "src/components/ListItemImage"
-import ListItemPrice from "src/components/ListItemPrice"
-import OwnerInfo from "src/components/OwnerInfo"
-import PageTitle from "src/components/PageTitle"
-import RarityScale from "src/components/RarityScale"
+import Link from "next/link"
+import PropTypes from "prop-types"
+import {paths} from "src/global/constants"
 import useAccountItem from "src/hooks/useAccountItem"
-import useApiListing from "src/hooks/useApiListing"
+import useAppContext from "src/hooks/useAppContext"
+import {rarityTextColors} from "src/util/classes"
 
-import SectionTitle, { MenuWrapper, CollectionWrapper } from "../../../../src/component/SectionTitle";
 import styled from "styled-components";
-import ListItemPageButtons from "../../../../src/component/Card/ListItemPageButtons"
-import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial } from "../../../../src/util/dibbs.mint.data"
 
-export default function KittyItem() {
-  const router = useRouter()
-  const {address, id} = router.query
-  const {data: item} = useAccountItem(address, id)
-  const {listing} = useApiListing(id)
+export default function ListItem({
+  address,
+  id,
+  price,
+  listingId,
+  showOwnerInfo,
+  size = "sm",
+  isStoreItem,
+  buttonName="Buy",
+}) 
+{
+  const {currentUser} = useAppContext()
+  const {data: item, isLoading} = useAccountItem(address, id)
+  if (isLoading || !item) return null
 
+  const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
+  const isBuyable = !currentUserIsOwner && !!listingId
+
+  const profileUrl = paths.profileItem(address, id)
+  const rarityTextColor = rarityTextColors(item.rarity.rawValue)
+
+  const onBuyCollect = () => {
+    router.push(profileUrl)
+  }
   return (
-    <>
-    <MenuWrapper className="animation-fadeInRight">
-        <SectionTitle title="Card Deatils" long />
-      </MenuWrapper>
-      <CollectionWrapper>
-        <Container>
+    <Container>
       <CardImage>
-        <img src={getCardImage(item?.itemID)} alt={item?.name} className={`card-image`} />
+        <img src={getCardImage(item.itemID)} alt={item.name} className={`card-image`} />
         <img
           src={`/static/images/bg/components/card/card-border.png`}
           alt="card-border"
@@ -36,43 +44,69 @@ export default function KittyItem() {
       <ButtonWrapper>
         <div className="card-grid text-center">
           <div className="d-flex flex-column">
-            { name && 
+            { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Name: </label>
-                <span>{getCardName(item?.itemID)}</span>
+                <span>{getCardName(item.itemID)}</span>
               </div>
             }
-            { name && 
+            { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Grade: </label>
-                <span>{getCardGrade(item?.itemID)}</span>
+                <span>{getCardGrade(item.itemID)}</span>
               </div>
             }
             {/* <div className="w-100 d-flex flex-column">
               <label className="text-left">Details: </label>
               <span className="text-left text-wrapper">{card.details}</span>
             </div> */}
-            { name && 
+            { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Serial: </label>
-                <span>{getCardSerial(item?.itemID)}</span>
+                <span>{getCardSerial(item.itemID)}</span>
               </div>
             }
+            { price && 
               <div className="w-100 d-flex justify-between">
                 <label>price $ :</label>
-                <span>{parseFloat(listing?.price)}</span>
+                <span>{price}</span>
               </div>
-              <ListItemPageButtons item={item} listing={listing} />
+            }
+            
           </div>
-                      
+
+            <div className="grid-button-wrapper">
+                  
+              {isLoading ? (
+                <button
+                  className={`${
+                    "btn-buying"
+                  } hover-effect2`}
+                >
+                  <div className="loading-wrapper">
+                    <img
+                      src="/static/images/icons/loading.gif"
+                      height="20"
+                      alt=""
+                    />
+                    { !isSell ? "BUYING..." : "Selling..." }
+                  </div>
+                </button>
+              ) : (
+                <button
+                  className="approve hover-effect2"
+                  onClick={onBuyCollect}
+                >
+                  { !isSell ? "BUY" : "Sell" }
+                </button>
+              )}
+                
+            </div>
         </div>
       </ButtonWrapper>
     </Container>
-    </CollectionWrapper>
-    </>
-  )
-}
-
+  );
+};
 
 export const Container = styled.div`
   margin: 8px;
@@ -207,3 +241,14 @@ export const ButtonWrapper = styled.div`
     }
   }
 `;
+
+
+ListItem.propTypes = {
+  address: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  price: PropTypes.number,
+  listingId: PropTypes.number,
+  showOwnerInfo: PropTypes.bool,
+  size: PropTypes.string,
+  isStoreItem: PropTypes.bool,
+}

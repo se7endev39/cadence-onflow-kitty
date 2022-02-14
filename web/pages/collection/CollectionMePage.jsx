@@ -8,28 +8,14 @@ import useAccountItems from "../../src/hooks/useAccountItems"
 import useApiListings from "../../src/hooks/useApiListings"
 
 import useAppContext from "../../src/hooks/useAppContext"
-
+import ListItems from "../../src/component/Card/ListItems"
 import { myCollection } from "../../src/tempData/data";
-// import { useUser } from '../../src/providers/UserProvider'
 
 export default function CollectionMe () {
   
   
   const { currentUser } = useAppContext()
   const address = currentUser?.addr
-  // // const { userDappies, sellDibbs } = useUser()
-  // const [userDappies, setuserDappies] = useState([]);
-  // const onBuyCollect = async (card) => {
-    
-  //   console.log(card.id, card.price);
-  //   try {
-  //     // await sellDibbs(card.id, card.price);
-  //     history.push('/collections');
-  //   } catch (error) {
-  //     console.log(error)
-  //     history.push('/collections');
-  //   }
-  // }
 
   const {listings, isLoading: isListingsLoading} = useApiListings({
     owner: address,
@@ -44,7 +30,6 @@ export default function CollectionMe () {
   const listingItemIds = listings.map(listing => listing.itemID)
   const itemIdsNotForSale = itemIds?.filter(id => !listingItemIds.includes(id))
   
-  console.log('itemIdsNotForSale',itemIdsNotForSale)
 
   return (
     <>
@@ -53,21 +38,9 @@ export default function CollectionMe () {
       </MenuWrapper>
 
       <CollectionWrapper>
-        {
-          itemIdsNotForSale?.map((item) =>
-            <CardCollectionDetails
-              key={item.id}
-              templateKeyId={item.id}
-              name={item.name}
-              card={item}
-              onBuyCollect={onBuyCollect}
-              price_d
-              price_f
-              amount={item.amount}
-              isSell
-            />
-          )
-        }
+        <ListItems
+          items={itemIdsNotForSale.map(id => ({itemID: id, owner: address}))}
+        />
       </CollectionWrapper>
     </>
   );
