@@ -4,12 +4,11 @@ import {paths} from "src/global/constants"
 
 export default function useLogin() {
   const router = useRouter()
-  
+
   const logIn = async () => {
     const user = await fcl.logIn()
     if (user.addr) {
-      // router.push("/collections")
-      router.push(paths.root)
+      router.push(paths.profile(user.addr))
     }
   }
 

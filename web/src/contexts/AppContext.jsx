@@ -82,7 +82,7 @@ export const AppContextProvider = ({ children }) => {
       LOGGED_IN_ADMIN_ADDRESS_KEY,
       currentUser?.addr
     )
-    router.push(paths.adminmintpage)
+    router.push(paths.adminMint)
     setShowAdminLoginDialog(false)
     setIsLoggedInAsAdmin(true)
   }

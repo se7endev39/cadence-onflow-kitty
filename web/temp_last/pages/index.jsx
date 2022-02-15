@@ -7,13 +7,14 @@ import SectionTitle, { MenuWrapper, CollectionWrapper } from "../src/component/S
 import useApiListings from "../src/hooks/useApiListings"
 import {storeItemsSelector,publicItemsSelector} from "../src/global/selectors"
 import ListItem from "../src/component/Card/ListItem"
+import publicConfig from "../src/global/publicConfig"
 export default function Collection () {
   
-  const {items} = useApiListings()
-  console.log('items',items)
-  const storeItems = storeItemsSelector(items)
-  const publicItems = publicItemsSelector(items)
-
+  const {listings} = useApiListings()
+  const storeItems = storeItemsSelector(listings)
+  const publicItems = publicItemsSelector(listings)
+  console.log('items',storeItems)
+  console.log('items',publicItems)
   const onBuyCollect = (item) => {
     history.push('/collections/' + item.templateID);
   }
@@ -46,7 +47,7 @@ export default function Collection () {
         {
           publicItems?.map((item) => 
             <ListItem
-              key={`${item.itemID}-${item.resourceID}`}
+              // key={`${item.itemID}-${item.resourceID}`}
               address={item.owner}
               id={item.itemID}
               price={item.price ? parseFloat(item.price) : undefined}
