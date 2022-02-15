@@ -6,11 +6,11 @@ import {FlowService} from "./flow"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
-const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
+const kittyItemsPath = '"../../contracts/CardItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
-
+import { args } from "../../../cadence/tests/src/card-items"
 enum Kind {
   Fishbowl = 0,
   Fishhat,
@@ -74,7 +74,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/setup_account.cdc`
+          `../../../cadence/transactions/cardItems/setup_account.cdc`
         ),
         "utf8"
       )
@@ -93,14 +93,15 @@ class KittyItemsService {
   mint = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    const kind = randomKind()
-    const rarity = randomRarity()
+    // const kind = randomKind()
+    // const rarity = randomRarity()
+    const index = Math.floor(Math.random() * args.length)
 
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/mint_kitty_item.cdc`
+          `../../../cadence/transactions/cardItems/mint_card_item.cdc`
         ),
         "utf8"
       )
@@ -111,8 +112,10 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(Number(kind), t.UInt8),
-        fcl.arg(Number(rarity), t.UInt8),
+        fcl.arg(args[index]?.name, t.String),
+        fcl.arg(args[index]?.grade, t.String),
+        fcl.arg(args[index]?.serial, t.UInt64),
+        fcl.arg(args[index]?.image, t.String),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -124,14 +127,16 @@ class KittyItemsService {
   mintAndList = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    const kind = randomKind()
-    const rarity = randomRarity()
+    // const kind = randomKind()
+    // const rarity = randomRarity()
+    
+    const index = Math.floor(Math.random() * args.length)
 
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/mint_and_list_kitty_item.cdc`
+          `../../../cadence/transactions/cardItems/mint_and_list_card_item.cdc`
         ),
         "utf8"
       )
@@ -145,8 +150,10 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(Number(kind), t.UInt8),
-        fcl.arg(Number(rarity), t.UInt8),
+        fcl.arg(args[index]?.name, t.String),
+        fcl.arg(args[index]?.grade, t.String),
+        fcl.arg(args[index]?.serial, t.UInt64),
+        fcl.arg(args[index]?.image, t.String),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -162,7 +169,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/transfer_kitty_item.cdc`
+          `../../../cadence/transactions/cardItems/transfer_card_item.cdc`
         ),
         "utf8"
       )
@@ -183,7 +190,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/get_collection_ids.cdc`
+          `../../../cadence/scripts/cardItems/get_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -201,7 +208,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/get_kitty_item.cdc`
+          `../../../cadence/scripts/cardItems/get_card_item.cdc`
         ),
         "utf8"
       )
@@ -220,7 +227,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/get_kitty_items_supply.cdc`
+          `../../../cadence/scripts/cardItems/get_card_items_supply.cdc`
         ),
         "utf8"
       )

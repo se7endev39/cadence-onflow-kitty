@@ -3,25 +3,25 @@ import {
 	executeScriptWithErrorRaised, 
 	deployContractByNameWithErrorRaised 
 } from "./common"
-import { getDibbsAdminAddress } from "./common";
-import { deployCardItems, setupCardItemsOnAccount } from "./card-items";
+import { getKittyAdminAddress } from "./common";
+import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
 
 /*
- * Deploys CardItems and NFTStorefront contracts to DibbsAdmin.
+ * Deploys KittyItems and NFTStorefront contracts to KittyAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
 export const deployNFTStorefront = async () => {
-	const DibbsAdmin = await getDibbsAdminAddress();
+	const KittyAdmin = await getKittyAdminAddress();
 
-	await deployCardItems();
+	await deployKittyItems();
 
 	const addressMap = {
-		NonFungibleToken: DibbsAdmin,
-		CardItems: DibbsAdmin,
+		NonFungibleToken: KittyAdmin,
+		KittyItems: KittyAdmin,
 	};
 
-	return deployContractByNameWithErrorRaised({ to: DibbsAdmin, name: "NFTStorefront", addressMap });
+	return deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "NFTStorefront", addressMap });
 };
 
 /*
@@ -31,8 +31,8 @@ export const deployNFTStorefront = async () => {
  * @returns {Promise<*>}
  * */
 export const setupStorefrontOnAccount = async (account) => {
-	// Account shall be able to store Card Items
-	await setupCardItemsOnAccount(account);
+	// Account shall be able to store Kitty Items
+	await setupKittyItemsOnAccount(account);
 
 	const name = "nftStorefront/setup_account";
 	const signers = [account];

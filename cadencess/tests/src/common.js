@@ -6,7 +6,7 @@ const UFIX64_PRECISION = 8;
 // UFix64 values shall be always passed as strings
 export const toUFix64 = (value) => value.toFixed(UFIX64_PRECISION);
 
-export const getDibbsAdminAddress = async () => getAccountAddress("DibbsAdmin");
+export const getKittyAdminAddress = async () => getAccountAddress("KittyAdmin");
 
 export const sendTransactionWithErrorRaised = async (...props) => {
     const [resp, err] = await sendTransaction(...props);
@@ -25,7 +25,6 @@ export const executeScriptWithErrorRaised = async (...props) => {
 }
 
 export const deployContractByNameWithErrorRaised = async (...props) => {
-    console.log(props)
     const [resp, err] = await deployContractByName(...props);
     if (err) {
         throw err;

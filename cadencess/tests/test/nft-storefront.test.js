@@ -10,11 +10,12 @@ import {
 
 import { toUFix64 } from "../src/common";
 import { 
-	getCardItemCount,
-	mintCardItem,
-	getCardItem,
-	args
-} from "../src/card-items";
+	getKittyItemCount,
+	mintKittyItem,
+	getKittyItem,
+	types,
+	rarities,
+} from "../src/kitty-items";
 import {
 	deployNFTStorefront,
 	createListing,
@@ -60,9 +61,8 @@ describe("NFT Storefront", () => {
 		const Alice = await getAccountAddress("Alice");
 		await setupStorefrontOnAccount(Alice);
 
-		// Mint CardItem for Alice's account
-		const {name, grade, serial, image} = args[0]
-    await shallPass(mintCardItem(Alice, name, grade, serial, image));
+		// Mint KittyItem for Alice's account
+		await shallPass(mintKittyItem(Alice, types.fishbowl, rarities.blue));
 
 		const itemID = 0;
 
@@ -75,10 +75,8 @@ describe("NFT Storefront", () => {
 
 		// Setup seller account
 		const Alice = await getAccountAddress("Alice");
-    await setupStorefrontOnAccount(Alice);
-
-		const {name, grade, serial, image} = args[0]
-    await mintCardItem(Alice, name, grade, serial, image);
+		await setupStorefrontOnAccount(Alice);
+		await mintKittyItem(Alice, types.fishbowl, rarities.blue);
 
 		const itemId = 0;
 
@@ -87,6 +85,7 @@ describe("NFT Storefront", () => {
 		await setupStorefrontOnAccount(Bob);
 
 		await shallPass(mintFlow(Bob, toUFix64(100)));
+
 		// Bob shall be able to buy from Alice
 		const sellItemTransactionResult = await shallPass(createListing(Alice, itemId, toUFix64(1.11)));
 
@@ -95,7 +94,7 @@ describe("NFT Storefront", () => {
 
 		await shallPass(purchaseListing(Bob, listingResourceID, Alice));
 
-		const itemCount = await getCardItemCount(Bob);
+		const itemCount = await getKittyItemCount(Bob);
 		expect(itemCount).toBe(1);
 
 		const listingCount = await getListingCount(Alice);
@@ -111,12 +110,11 @@ describe("NFT Storefront", () => {
 		await shallPass(setupStorefrontOnAccount(Alice));
 
 		// Mint instruction shall pass
-		const {name, grade, serial, image} = args[0]
-    await shallPass(mintCardItem(Alice, name, grade, serial, image));
+		await shallPass(mintKittyItem(Alice, types.fishbowl, rarities.blue));
 
 		const itemId = 0;
 
-		await getCardItem(Alice, itemId);
+		await getKittyItem(Alice, itemId);
 
 		// Listing item for sale shall pass
 		const sellItemTransactionResult = await shallPass(createListing(Alice, itemId, toUFix64(1.11)));

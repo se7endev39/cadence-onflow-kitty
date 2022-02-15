@@ -6,7 +6,7 @@ export async function fetchMarketItem(address, id) {
     .send([
       fcl.script`
         import NFTStorefront from 0xNFTStorefront
-        import KittyItems from 0xKittyItems
+        import KittyItems1 from 0xKittyItems
         import NonFungibleToken from 0xNonFungibleToken
 
         pub struct SaleItem {

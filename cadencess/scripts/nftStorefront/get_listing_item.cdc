@@ -1,7 +1,7 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import MetadataViews from "../../contracts/MetadataViews.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
-import CardItems from "../../contracts/CardItems.cdc"
+import KittyItems from "../../contracts/KittyItems.cdc"
 
 pub struct ListingItem {
     pub let name: String
@@ -10,10 +10,8 @@ pub struct ListingItem {
 
     pub let itemID: UInt64
     pub let resourceID: UInt64
-    pub let cardName: CardItems.cardName
-    pub let cardGrade: CardItems.cardGrade
-    pub let cardSerial: CardItems.cardSerial
-    pub let cardImage: CardItems.cardImage
+    pub let kind: KittyItems.Kind
+    pub let rarity: KittyItems.Rarity
     pub let owner: Address
     pub let price: UFix64
 
@@ -23,10 +21,8 @@ pub struct ListingItem {
         thumbnail: String,
         itemID: UInt64,
         resourceID: UInt64,
-        cardName: CardItems.cardName,
-        cardGrade: CardItems.cardGrade,
-        cardSerial: CardItems.cardSerial,
-        cardImage: CardItems.cardImage,
+        kind: KittyItems.Kind,
+        rarity: KittyItems.Rarity,
         owner: Address,
         price: UFix64
     ) {
@@ -36,10 +32,8 @@ pub struct ListingItem {
 
         self.itemID = itemID
         self.resourceID = resourceID
-        self.cardName = cardName
-        self.cardGrade = cardGrade
-        self.cardSerial = cardSerial
-        self.cardImage = cardImage
+        self.kind = kind
+        self.rarity = rarity
         self.owner = owner
         self.price = price
     }
@@ -69,7 +63,7 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
             let itemID = details.nftID
             let itemPrice = details.salePrice
         
-            if let collection = getAccount(address).getCapability<&CardItems.Collection{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath).borrow() {
+            if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
             
                 if let item = collection.borrowKittyItem(id: itemID) {
 
@@ -87,10 +81,8 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
                             thumbnail: dwebURL(ipfsThumbnail),
                             itemID: itemID,
                             resourceID: item.uuid,
-                            cardName: item.name, 
-                            cardGrade: item.grade, 
-                            cardSerial: item.serial,
-                            cardImage: item.image,
+                            kind: item.kind, 
+                            rarity: item.rarity, 
                             owner: address,
                             price: itemPrice
                         )
