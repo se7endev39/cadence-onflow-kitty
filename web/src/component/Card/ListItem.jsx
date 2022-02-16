@@ -21,6 +21,7 @@ export default function ListItem({
   const router = useRouter()
   const {currentUser} = useAppContext()
   const {data: item, isLoading} = useAccountItem(address, id)
+  console.log('item',address, id)
   if (isLoading || !item) return null
 
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr

@@ -9,7 +9,7 @@ const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
-const kittyItemsPath = '"../../contracts/CardItems.cdc"'
+const cardItemsPath = '"../../contracts/CardItems.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
 const PER_PAGE = 12
@@ -72,7 +72,7 @@ class StorefrontService {
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -92,7 +92,7 @@ class StorefrontService {
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -110,7 +110,7 @@ class StorefrontService {
       .readFileSync(path.join(__dirname, '../../../cadence/scripts/nftStorefront/get_listing_item.cdc'), 'utf8')
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
     
     return this.flowService.executeScript<any>({

@@ -6,7 +6,7 @@ import {FlowService} from "./flow"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
-const kittyItemsPath = '"../../contracts/CardItems.cdc"'
+const cardItemsPath = '"../../contracts/CardItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
@@ -112,7 +112,7 @@ class CardItemsService {
         "utf8"
       )
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -139,7 +139,7 @@ class CardItemsService {
         "utf8"
       )
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -175,7 +175,7 @@ class CardItemsService {
         "utf8"
       )
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
@@ -208,7 +208,7 @@ class CardItemsService {
         "utf8"
       )
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
@@ -229,7 +229,7 @@ class CardItemsService {
         "utf8"
       )
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number[]>({
       script,
@@ -248,7 +248,7 @@ class CardItemsService {
       )
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({
       script,
@@ -265,7 +265,7 @@ class CardItemsService {
         ),
         "utf8"
       )
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(cardItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({script, args: []})
   }
