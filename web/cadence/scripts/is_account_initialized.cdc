@@ -17,7 +17,7 @@ pub fun hasStorefront(_ address: Address): Bool {
 
 pub fun main(address: Address): {String: Bool} {
   let ret: {String: Bool} = {}
-  ret["KittyItems"] = hasItems(address)
-  ret["KittyItemsMarket"] = hasStorefront(address)
+  ret["CardItems"] = hasItems(address)
+  ret["CardItemsMarket"] = hasStorefront(address)
   return ret
 }

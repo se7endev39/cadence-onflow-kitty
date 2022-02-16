@@ -35,7 +35,7 @@ export const AppContextProvider = ({ children }) => {
       setIsAccountInitStateLoading(true)
       isAccountInitializedTx(currentUser?.addr).then(data => {
         setIsAccountInitialized(
-          data.KittyItems && data.KittyItemsMarket
+          data.CardItems && data.CardItemsMarket
         )
         setIsAccountInitStateLoading(false)
       })

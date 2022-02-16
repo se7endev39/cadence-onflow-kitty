@@ -20,8 +20,8 @@ import * as fcl from "@onflow/fcl"
 
 const Header = () => {
 
-  const { data: flowBalance, isLoading } = useFLOWBalance(currentUser?.addr)
   const {currentUser, isLoggedInAsAdmin} = useAppContext()
+  const { data: flowBalance, isLoading } = useFLOWBalance(currentUser?.addr)
 
   const router = useRouter()
   const logIn = useLogin()
