@@ -1,6 +1,6 @@
-import NonFungibleToken from 0xNonFungibleToken
-import MetadataViews from 0xMetadataViews
-import CardItems from 0xCardItems
+import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
+import MetadataViews from "../../contracts/MetadataViews.cdc"
+import CardItems from "../../contracts/CardItems.cdc"
 
 pub struct CardItem {
     pub let name: String
@@ -53,7 +53,7 @@ pub fun dwebURL(_ file: MetadataViews.IPFSFile): String {
     return url
 }
 
-pub fun fetch(address: Address, itemID: UInt64): CardItem? {
+pub fun main(address: Address, itemID: UInt64): CardItem? {
     if let collection = getAccount(address).getCapability<&CardItems.Collection{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath).borrow() {
         
         if let item = collection.borrowCardItem(id: itemID) {
@@ -83,18 +83,4 @@ pub fun fetch(address: Address, itemID: UInt64): CardItem? {
     }
 
     return nil
-}
-
-
-pub fun main(keys: [String], addresses: [Address], ids: [UInt64]): {String: CardItem?} {
-  let r: {String: CardItem?} = {}
-  var i = 0
-  while i < keys.length {
-    let key = keys[i]
-    let address = addresses[i]
-    let id = ids[i]
-    r[key] = fetch(address: address, itemID: id)
-    i = i + 1
-  }
-  return r
 }

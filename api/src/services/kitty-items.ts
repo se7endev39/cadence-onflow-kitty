@@ -10,7 +10,40 @@ const kittyItemsPath = '"../../contracts/CardItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
-import { args } from "../../../cadence/tests/src/card-items"
+
+export const args = [
+  {
+    name: "2010 Bowman Draft Picks Manny Machado ROOKIE RC #BDPP80 PSA 10 GEM MINT",
+    grade: "PSA 10",
+    serial: 22129333,
+    image: "Qmec8XfVmibXTYhGMn9qst6sySmcDeQk8S9p4RVX9tTPzt"
+  },
+  {
+    name: "2010 Bowman Draft Picks Manny Machado ROOKIE RC #BDPP80 PSA 10 GEM MINT",
+    grade: "PSA 10",
+    serial: 28474567,
+    image: "QmY2oVKU6GfvyfnQJjybAhSiqnhZroG63oNkACAfp8LyZr"
+  },
+  { 
+    name: "2020 Panini Prizm WNBA Purple Sabrina Ionescu ROOKIE RC /125 #89 PSA 9 MINT",
+    grade: "PSA 9",
+    serial: 52961680,
+    image: "QmbNSz7Bh1xS83HoMEgpzBsYFoVDSsdztYyAK12KYnQCKW"
+  },
+  {
+    name: "2017 Donruss Football Patrick Mahomes II ROOKIE RC #327 PSA 10 GEM MINT",
+    grade: "PSA 10",
+    serial: 49277141,
+    image: "QmTpX3jXyf9dLGGu4AhjcaB3KexJfG6kk49PPkFuUZNbi1"      
+  },
+  {
+    name: "2019 Topps Chrome Bundesliga Erling Haaland ROOKIE RC #72 PSA 10 GEM MINT",
+    grade: "PSA 10",
+    serial: 49818702,
+    image: "QmWr6mNCCFquHMsMy69qXxzRUGxxr3W9rW2fQshTzM6We1"
+  }
+]
+
 enum Kind {
   Fishbowl = 0,
   Fishhat,
@@ -112,10 +145,10 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(args[index]?.name, t.String),
-        fcl.arg(args[index]?.grade, t.String),
-        fcl.arg(args[index]?.serial, t.UInt64),
-        fcl.arg(args[index]?.image, t.String),
+        fcl.arg(args[0]?.name, t.String),
+        fcl.arg(args[0]?.grade, t.String),
+        fcl.arg(args[0]?.serial, t.UInt64),
+        fcl.arg(args[0]?.image, t.String),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -131,12 +164,13 @@ class KittyItemsService {
     // const rarity = randomRarity()
     
     const index = Math.floor(Math.random() * args.length)
-
+    console.log(__dirname)
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/cardItems/mint_and_list_card_item.cdc`
+          // `/../../cadence/transactions/cardItems/mint_and_list_card_tokens.cdc`
+          `/../../cadence/transactions/cardItems/mint_and_list_card_tokens.cdc`
         ),
         "utf8"
       )
