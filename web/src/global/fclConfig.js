@@ -2,10 +2,10 @@ import {config} from "@onflow/fcl"
 import publicConfig from "src/global/publicConfig"
 
 config()
-  .put("app.detail.title", "Kitty Items")
+  .put("app.detail.title", "Dibbs Items")
   .put(
     "app.detail.icon",
-    `${new URL(publicConfig.appUrl).origin}/images/kitty-items-logo.svg`
+    `${new URL(publicConfig.appUrl).origin}/images/dibbs-items-logo.svg`
   )
   .put("env", publicConfig.chainEnv)
   .put("faucet", publicConfig.faucetAddress)

@@ -3,16 +3,16 @@ import cors from "cors"
 import express, {Request, Response} from "express"
 import "express-async-errors"
 import path from "path"
-import initKittyItemsRouter from "./routes/kitty-items"
+import initCardItemsRouter from "./routes/card-items"
 import initStorefrontRouter from "./routes/storefront"
-import {KittyItemsService} from "./services/kitty-items"
+import {CardItemsService} from "./services/card-items"
 import {StorefrontService} from "./services/storefront"
 
 const V1 = "/v1/"
 
 // Init all routes, setup middlewares and dependencies
 const initApp = (
-  kittyItemsService: KittyItemsService,
+  CardItemsService: CardItemsService,
   storefrontService: StorefrontService
 ) => {
   const app = express()
@@ -20,7 +20,7 @@ const initApp = (
   app.use(cors())
   app.use(json())
   app.use(urlencoded({extended: false}))
-  app.use(V1, initKittyItemsRouter(kittyItemsService))
+  app.use(V1, initCardItemsRouter(CardItemsService))
   app.use(V1, initStorefrontRouter(storefrontService))
 
   const serveReactApp = () => {

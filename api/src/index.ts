@@ -6,7 +6,7 @@ import { getConfig } from "./config"
 import initDB from "./db"
 import { BlockCursorService } from "./services/block-cursor"
 import { FlowService } from "./services/flow"
-import { KittyItemsService } from "./services/kitty-items"
+import { CardItemsService } from "./services/card-items"
 import { StorefrontService } from "./services/storefront"
 import { ListingHandler } from "./workers/listing-handler"
 
@@ -80,7 +80,7 @@ async function run() {
   const startAPIServer = () => {
     console.log("Starting API server ....");
 
-    const kittyItemsService = new KittyItemsService(
+    const cardItemsService = new CardItemsService(
       flowService,
       config.nonFungibleTokenAddress,
       config.metadataViewsAddress,
@@ -91,7 +91,7 @@ async function run() {
     );
 
     const app = initApp(
-      kittyItemsService,
+      cardItemsService,
       storefrontService
     );
 
