@@ -13,6 +13,7 @@ export default function Listing({address, id, showOwnerInfo}) {
       id={listing?.itemID}
       listingId={id}
       price={parseFloat(listing?.price)}
+      btnStr="Remove from Market"
       showOwnerInfo={showOwnerInfo}
     />
   )

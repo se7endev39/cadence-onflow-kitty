@@ -15,6 +15,7 @@ export default function ListItem({
   showOwnerInfo,
   size = "sm",
   isStoreItem,
+  btnStr,
   isSell=true
 }) 
 {
@@ -91,7 +92,7 @@ export default function ListItem({
                       height="20"
                       alt=""
                     />
-                    { !isSell ? "BUYING..." : "Selling..." }
+                    {btnStr}...
                   </div>
                 </button>
               ) : (
@@ -99,7 +100,7 @@ export default function ListItem({
                   className="approve hover-effect2"
                   onClick={onBuyCollect}
                 >
-                  { !isSell ? "BUY" : "Sell" }
+                  {btnStr}
                 </button>
               )}
                 
