@@ -1,11 +1,11 @@
 import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
-import KittyItems from 0xKittyItems
+import CardItems from 0xCardItems
 import NFTStorefront from 0xNFTStorefront
 
 pub fun hasItems(_ address: Address): Bool {
   return getAccount(address)
-    .getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath)
+    .getCapability<&CardItems.Collection{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath)
     .check()
 }
 

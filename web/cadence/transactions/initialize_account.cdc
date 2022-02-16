@@ -1,11 +1,11 @@
 import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
-import KittyItems from 0xKittyItems
+import CardItems from 0xCardItems
 import NFTStorefront from 0xNFTStorefront
 
 pub fun hasItems(_ address: Address): Bool {
   return getAccount(address)
-    .getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath)
+    .getCapability<&CardItems.Collection{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath)
     .check()
 }
 
@@ -18,11 +18,11 @@ pub fun hasStorefront(_ address: Address): Bool {
 transaction {
   prepare(acct: AuthAccount) {
     if !hasItems(acct.address) {
-      if acct.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) == nil {
-        acct.save(<-KittyItems.createEmptyCollection(), to: KittyItems.CollectionStoragePath)
+      if acct.borrow<&CardItems.Collection>(from: CardItems.CollectionStoragePath) == nil {
+        acct.save(<-CardItems.createEmptyCollection(), to: CardItems.CollectionStoragePath)
       }
-      acct.unlink(KittyItems.CollectionPublicPath)
-      acct.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
+      acct.unlink(CardItems.CollectionPublicPath)
+      acct.link<&CardItems.Collection{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath, target: CardItems.CollectionStoragePath)
     }
 
     if !hasStorefront(acct.address) {

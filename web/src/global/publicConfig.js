@@ -48,6 +48,9 @@ if (!avatarUrl) throw "Missing NEXT_PUBLIC_AVATAR_URL"
 const contractKittyItems = process.env.NEXT_PUBLIC_CONTRACT_KITTY_ITEMS
 if (!contractKittyItems) throw "Missing NEXT_PUBLIC_CONTRACT_KITTY_ITEMS"
 
+const contractCardItems = process.env.NEXT_PUBLIC_CONTRACT_CARD_ITEMS
+if (!contractCardItems) throw "Missing NEXT_PUBLIC_CONTRACT_CARD_ITEMS"
+
 const contractNftStorefront = process.env.NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT
 if (!contractNftStorefront) throw "Missing NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT"
 
@@ -72,6 +75,7 @@ const publicConfig = {
   contractMetadataViews,
   contractFlowToken,
   contractKittyItems,
+  contractCardItems,
   contractNftStorefront,
 }
 

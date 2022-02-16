@@ -1,8 +1,8 @@
 import NonFungibleToken from 0xNonFungibleToken
-import KittyItems from 0xKittyItems
+import CardItems from 0xCardItems
 
 pub fun main(address: Address): [UInt64] {
-  if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
+  if let collection = getAccount(address).getCapability<&CardItems.Collection{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath).borrow() {
     return collection.getIDs()
   }
 

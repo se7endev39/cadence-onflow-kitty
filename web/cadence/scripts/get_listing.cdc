@@ -1,34 +1,34 @@
 import NonFungibleToken from 0xNonFungibleToken
 import MetadataViews from 0xMetadataViews
 import NFTStorefront from 0xNFTStorefront
-import KittyItems from 0xKittyItems
+import CardItems from 0xCardItems
 
 pub struct ListingItem {
     pub let name: String
     pub let description: String
-    pub let image: String
+    pub let thumbnail: String
 
     pub let itemID: UInt64
     pub let resourceID: UInt64
-    pub let kind: KittyItems.Kind
-    pub let rarity: KittyItems.Rarity
+    pub let kind: CardItems.Kind
+    pub let rarity: CardItems.Rarity
     pub let owner: Address
     pub let price: UFix64
 
     init(
         name: String,
         description: String,
-        image: String,
+        thumbnail: String,
         itemID: UInt64,
         resourceID: UInt64,
-        kind: KittyItems.Kind,
-        rarity: KittyItems.Rarity,
+        kind: CardItems.Kind,
+        rarity: CardItems.Rarity,
         owner: Address,
         price: UFix64
     ) {
         self.name = name
         self.description = description
-        self.image = image
+        self.thumbnail = thumbnail
 
         self.itemID = itemID
         self.resourceID = resourceID
@@ -39,8 +39,22 @@ pub struct ListingItem {
     }
 }
 
+pub fun dwebURL(_ file: MetadataViews.IPFSFile): String {
+    var url = "https://"
+        .concat(file.cid)
+        .concat(".ipfs.dweb.link/")
+  
+    if let path = file.path {
+        return url.concat(path)
+    }
+  
+    return url
+}
+
 pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
-    if let storefrontRef = getAccount(address).getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath).borrow() {
+    let account = getAccount(address)
+
+    if let storefrontRef = account.getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath).borrow() {
 
         if let listing = storefrontRef.borrowListing(listingResourceID: listingResourceID) {
             
@@ -49,7 +63,7 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
             let itemID = details.nftID
             let itemPrice = details.salePrice
         
-            if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
+            if let collection = getAccount(address).getCapability<&CardItems.Collection{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath).borrow() {
             
                 if let item = collection.borrowKittyItem(id: itemID) {
 
@@ -64,7 +78,7 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
                         return ListingItem(
                             name: display.name,
                             description: display.description,
-                            image: item.imageCID(),
+                            thumbnail: dwebURL(ipfsThumbnail),
                             itemID: itemID,
                             resourceID: item.uuid,
                             kind: item.kind, 

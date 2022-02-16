@@ -94,9 +94,9 @@ export const AppContextProvider = ({ children }) => {
 
   const switchToAdminView = () => {
     if (isLoggedInAsAdmin) {
-      router.push(paths.adminMint)
+      router.push(paths.adminmintpage)
     } else {
-      setShowAdminLoginDialog(true)
+      router.push(paths.adminloginpage)
     }
   }
 

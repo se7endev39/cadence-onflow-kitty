@@ -1,79 +1,86 @@
 import NonFungibleToken from 0xNonFungibleToken
 import MetadataViews from 0xMetadataViews
-import KittyItems from 0xKittyItems
+import CardItems from 0xCardItems
 
-pub struct KittyItem {
-  pub let name: String
-  pub let description: String
-  pub let image: String
+pub struct CardItem {
+    pub let name: String
+    pub let description: String
+    pub let thumbnail: String
 
-  pub let itemID: UInt64
-  pub let resourceID: UInt64
-  pub let kind: KittyItems.Kind
-  pub let rarity: KittyItems.Rarity
-  pub let owner: Address
+    pub let itemID: UInt64
+    pub let resourceID: UInt64
+    pub let cardName: String
+    pub let cardGrade: String
+    pub let cardSerial: UInt64
+    pub let cardImage: String
+    pub let owner: Address
 
-  init(
-    name: String,
-    description: String,
-    image: String,
-    itemID: UInt64,
-    resourceID: UInt64,
-    kind: KittyItems.Kind,
-    rarity: KittyItems.Rarity,
-    owner: Address,
-  ) {
-    self.name = name
-    self.description = description
-    self.image = image
+    init(
+        name: String,
+        description: String,
+        thumbnail: String,
+        itemID: UInt64,
+        resourceID: UInt64,
+        cardName: String,
+        cardGrade: String,
+        cardSerial: UInt64,
+        cardImage: String,
+        owner: Address,
+    ) {
+        self.name = name
+        self.description = description
+        self.thumbnail = thumbnail
 
-    self.itemID = itemID
-    self.resourceID = resourceID
-    self.kind = kind
-    self.rarity = rarity
-    self.owner = owner
-  }
-}
-
-pub fun fetch(address: Address, itemID: UInt64): KittyItem? {
-  if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
-    
-    if let item = collection.borrowKittyItem(id: itemID) {
-
-      if let view = item.resolveView(Type<MetadataViews.Display>()) {
-
-        let display = view as! MetadataViews.Display
-        
-        let owner: Address = item.owner!.address!
-
-        let ipfsThumbnail = display.thumbnail as! MetadataViews.IPFSFile     
-
-        return KittyItem(
-          name: display.name,
-          description: display.description,
-          image: item.imageCID(),
-          itemID: itemID,
-          resourceID: item.uuid,
-          kind: item.kind, 
-          rarity: item.rarity, 
-          owner: address,
-        )
-      }
+        self.itemID = itemID
+        self.resourceID = resourceID
+        self.cardName = cardName
+        self.cardGrade = cardGrade
+        self.cardSerial = cardSerial
+        self.cardImage = cardImage
+        self.owner = owner
     }
-  }
-
-  return nil
 }
 
-pub fun main(keys: [String], addresses: [Address], ids: [UInt64]): {String: KittyItem?} {
-  let r: {String: KittyItem?} = {}
-  var i = 0
-  while i < keys.length {
-    let key = keys[i]
-    let address = addresses[i]
-    let id = ids[i]
-    r[key] = fetch(address: address, itemID: id)
-    i = i + 1
-  }
-  return r
+pub fun dwebURL(_ file: MetadataViews.IPFSFile): String {
+    var url = "https://"
+        .concat(file.cid)
+        .concat(".ipfs.dweb.link/")
+    
+    if let path = file.path {
+        return url.concat(path)
+    }
+    
+    return url
+}
+
+pub fun main(address: Address, itemID: UInt64): CardItem? {
+    if let collection = getAccount(address).getCapability<&CardItems.CollectionPublic{NonFungibleToken.CollectionPublic, CardItems.CardItemsCollectionPublic}>(CardItems.CollectionPublicPath).borrow() {
+        
+        if let item = collection.borrowCardItem(id: itemID) {
+
+            if let view = item.resolveView(Type<MetadataViews.Display>()) {
+
+                let display = view as! MetadataViews.Display
+                
+                let owner: Address = item.owner!.address!
+
+                let ipfsThumbnail = display.thumbnail as! MetadataViews.IPFSFile     
+
+                return CardItem(
+                    name: display.name,
+                    description: display.description,
+                    thumbnail: dwebURL(ipfsThumbnail),
+                    itemID: itemID,
+                    resourceID: item.uuid,
+                    cardName: item.name, 
+                    cardGrade: item.grade, 
+                    cardSerial: item.serial,
+                    cardImage: item.image,
+                    owner: address,
+                )
+            }
+        }
+    }
+
+    return nil
 }
