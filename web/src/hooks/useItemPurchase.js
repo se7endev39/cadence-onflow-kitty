@@ -39,6 +39,7 @@ export default function useItemPurchase() {
   const [txStatus, setTxStatus] = useState(null)
 
   const purchase = (listingId, itemId, ownerAddress) => {
+    console.log('purchase1')
     if (!listingId) throw "Missing listing id"
     if (!ownerAddress) throw "Missing ownerAddress"
     

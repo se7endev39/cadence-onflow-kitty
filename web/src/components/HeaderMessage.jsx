@@ -30,7 +30,7 @@ export default function HeaderMessage() {
 
   const checkIsServiceAccountInitialized = () => {
     isAccountInitializedTx(publicConfig.flowAddress).then(data => {
-      setIsServiceAccountInitialized(data.KittyItems && data.KittyItemsMarket)
+      setIsServiceAccountInitialized(data.DibbsItems && data.DibbsItemsMarket)
     })
   }
 
@@ -56,7 +56,7 @@ export default function HeaderMessage() {
             >
               {isInitLoading ? "Initializing..." : "Initialize"}
             </button>
-            the Service Account to mint Kitty Items.
+            the Service Account to mint Dibbs Items.
           </>
         ) : (
           <>
@@ -81,7 +81,7 @@ export default function HeaderMessage() {
           onClick={switchToAdminView}
           className="font-bold underline hover:opacity-80"
         >
-          Mint some Kitty Items
+          Mint some Dibbs Items
         </button>
       </HeaderContainer>
     )
@@ -89,11 +89,11 @@ export default function HeaderMessage() {
 
   return (
     <HeaderContainer>
-      <span className="mr-3 text-sm">💻</span>Kitty Items is a demo application
+      <span className="mr-3 text-sm">💻</span>Dibbs Items is a demo application
       running on the Flow test network.{" "}
       <a
         className="border-b border-white"
-        href="https://github.com/onflow/kitty-items"
+        href="https://github.com/onflow/Dibbs-items"
         target="_blank"
         rel="noreferrer"
       >

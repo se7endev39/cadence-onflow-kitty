@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  font-family: "Orbitron-Regular", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Bootstrap framework includes
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+div {
+  box-sizing: border-box;
+}

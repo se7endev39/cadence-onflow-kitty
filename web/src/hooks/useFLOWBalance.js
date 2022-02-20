@@ -15,6 +15,7 @@ export function expandFLOWBalanceKey(key) {
 }
 
 export default function useFLOWBalance(address) {
+  console.log('useFlowbalanace',address)
   const {data, error} = useSWR(compFLOWBalanceKey(address), fetchFLOWBalance)
   return {
     data: typeof data === "undefined" ? undefined : fmtFlow(data),
