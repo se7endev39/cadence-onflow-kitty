@@ -29,7 +29,7 @@ class StorefrontService {
     const authorization = this.flowService.authorizeMinter()
 
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/setup_account.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `/../../cadence/transactions/nftStorefront/setup_account.cdc`), 'utf8')
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -43,7 +43,7 @@ class StorefrontService {
 
   getItem = (account: string, itemID: number) => {
     const script = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/scripts/nftStorefront/get_listing.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `/../../cadence/scripts/nftStorefront/get_listing.cdc`), 'utf8')
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.executeScript<any[]>({
@@ -54,7 +54,7 @@ class StorefrontService {
 
   getItems = (account: string) => {
     const script = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/scripts/nftStorefront/get_listings.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `/../../cadence/scripts/nftStorefront/get_listings.cdc`), 'utf8')
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.executeScript<number[]>({
@@ -67,7 +67,7 @@ class StorefrontService {
     const authorization = this.flowService.authorizeMinter()
 
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/purchase_listing.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `/../../cadence/transactions/nftStorefront/purchase_listing.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
@@ -87,7 +87,7 @@ class StorefrontService {
     const authorization = this.flowService.authorizeMinter()
 
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/create_listing.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `/../../cadence/transactions/nftStorefront/create_listing.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
@@ -106,7 +106,7 @@ class StorefrontService {
 
   getListingItem = async (account: string, listingResourceID: string): Promise<any> => {
     const script = fs
-      .readFileSync(path.join(__dirname, '../../../cadence/scripts/nftStorefront/get_listing_item.cdc'), 'utf8')
+      .readFileSync(path.join(__dirname, '/../../cadence/scripts/nftStorefront/get_listing_item.cdc'), 'utf8')
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
@@ -133,7 +133,7 @@ class StorefrontService {
           item_rarity: item.rarity,
           owner: owner,
           // TODO: Increase sale_price precision to match UFix64
-          price: item.price,
+          price: 24,
           transaction_id: listingEvent.transactionId,
         })
         .returning('transaction_id')

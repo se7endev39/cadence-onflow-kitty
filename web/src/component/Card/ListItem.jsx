@@ -4,7 +4,7 @@ import {paths} from "src/global/constants"
 import useAccountItem from "src/hooks/useAccountItem"
 import useAppContext from "src/hooks/useAppContext"
 import {rarityTextColors} from "src/util/classes"
-import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial } from "../../util/dibbs.mint.data"
+import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial,args } from "../../util/dibbs.mint.data"
 import styled from "styled-components";
 import {useRouter} from "next/router"
 export default function ListItem({
@@ -30,6 +30,9 @@ export default function ListItem({
   const profileUrl = paths.profileItem(address, id)
   const rarityTextColor = rarityTextColors(item.rarity.rawValue)
 
+  const itemID = item?.itemID%5;
+
+
   const onBuyCollect = () => {
     router.push(profileUrl)
   }
@@ -49,13 +52,13 @@ export default function ListItem({
             { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Name: </label>
-                <span>{getCardName(item.itemID)}</span>
+                <span>{args[itemID].name}</span>
               </div>
             }
             { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Grade: </label>
-                <span>{getCardGrade(item.itemID)}</span>
+                <span>{args[itemID].grade}</span>
               </div>
             }
             {/* <div className="w-100 d-flex flex-column">
@@ -65,7 +68,7 @@ export default function ListItem({
             { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Serial: </label>
-                <span>{getCardSerial(item.itemID)}</span>
+                <span>{args[itemID].serial}</span>
               </div>
             }
             { price && 

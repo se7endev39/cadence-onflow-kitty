@@ -10,13 +10,15 @@ import useApiListing from "src/hooks/useApiListing"
 import SectionTitle, { MenuWrapper, CollectionWrapper } from "../../../../src/component/SectionTitle";
 import styled from "styled-components";
 import ListItemPageButtons from "../../../../src/component/Card/ListItemPageButtons"
-import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial } from "../../../../src/util/dibbs.mint.data"
+import { ITEM_KIND_MAP, getCardImage, getCardName, getCardGrade, getCardSerial,args } from "../../../../src/util/dibbs.mint.data"
 
 export default function KittyItem() {
   const router = useRouter()
   const {address, id} = router.query
   const {data: item} = useAccountItem(address, id)
   const {listing} = useApiListing(id)
+
+  const itemID = item?.itemID%5;
 
   console.log('KittyItem',item,listing)
   return (
@@ -40,13 +42,13 @@ export default function KittyItem() {
             { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Name: </label>
-                <span>{getCardName(item?.itemID)}</span>
+                <span>{args[itemID].name}</span>
               </div>
             }
             { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Grade: </label>
-                <span>{getCardGrade(item?.itemID)}</span>
+                <span>{args[itemID].grade}</span>
               </div>
             }
             {/* <div className="w-100 d-flex flex-column">
@@ -56,7 +58,7 @@ export default function KittyItem() {
             { item && 
               <div className="w-100 d-flex justify-between">
                 <label>Serial: </label>
-                <span>{getCardSerial(item?.itemID)}</span>
+                <span>{args[itemID].serial}</span>
               </div>
             }
               <div className="w-100 d-flex justify-between">

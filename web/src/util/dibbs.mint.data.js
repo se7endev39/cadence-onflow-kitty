@@ -85,8 +85,7 @@ export const args = [
   ]
 
   export function parameterize(str) {
-    return str
-    // return str.toLowerCase().replace(" ", "-")
+    return str?.toLowerCase().replace(" ", "-")
   }
   export function getCardImage(cardId) {
     const kindName = ITEM_KIND_MAP[cardId % ITEM_KIND_MAP.length]?.name

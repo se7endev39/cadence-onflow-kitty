@@ -74,7 +74,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/setup_account.cdc`
+          `/../../cadence/transactions/kittyItems/setup_account.cdc`
         ),
         "utf8"
       )
@@ -100,7 +100,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/mint_kitty_item.cdc`
+          `/../../cadence/transactions/kittyItems/mint_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -131,7 +131,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/mint_and_list_kitty_item.cdc`
+          `/../../cadence/transactions/kittyItems/mint_and_list_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -162,7 +162,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/transfer_kitty_item.cdc`
+          `/../../cadence/transactions/kittyItems/transfer_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -183,7 +183,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/get_collection_ids.cdc`
+          `/../../cadence/scripts/kittyItems/get_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -201,7 +201,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/get_kitty_item.cdc`
+          `/../../cadence/scripts/kittyItems/get_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -220,7 +220,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/get_kitty_items_supply.cdc`
+          `/../../cadence/scripts/kittyItems/get_kitty_items_supply.cdc`
         ),
         "utf8"
       )
